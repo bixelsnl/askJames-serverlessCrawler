@@ -1,6 +1,8 @@
 const AWS = require('aws-sdk')
 AWS.config.update({ region: process.env.REGION || 'us-east-1' })
-const ddb = new AWS.DynamoDB()
+
+var dynamodb = require('serverless-dynamodb-client')
+const ddb = dynamodb.raw
 
 // Takes array of params and flushes to DynamoDB using the BatchWriteItem operation.
 

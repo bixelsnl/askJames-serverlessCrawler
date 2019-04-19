@@ -20,7 +20,7 @@ module.exports.flushToDynamoDB = async (params) => {
   console.log('flushToDynamoDB: ', batchParams)
 
   return new Promise((resolve, reject) => {
-    ddb.batchWriteItem(batchParams, function (err, data) {
+    a = ddb.batchWriteItem(batchParams, function (err, data) {
       if (err) {
         console.error('flushToDynamoDB', err)
         reject(err)
@@ -29,5 +29,7 @@ module.exports.flushToDynamoDB = async (params) => {
         resolve(data)
       }
     })
+
+    console.log(a.httpRequest.endpoint)
   })
 }

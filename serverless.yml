@@ -2,6 +2,8 @@ service: crawler-processStreamUpdate
 
 plugins:
   - serverless-dynamodb-local
+  - serverless-offline
+  - serverless-offline-dynamodb-streams
 
 provider:
   name: aws
@@ -10,7 +12,6 @@ provider:
   timeout: 15
   logRetentionInDays: 14
   versionFunctions: false
-
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -19,7 +20,7 @@ provider:
 
 functions:
   streamUpdated:
-    handler: handler.streamUpdated
+    handler: crawler/handler.streamUpdated
     events:
       - stream: arn:aws:dynamodb:us-east-1:515804667357:table/crawler/stream/2019-02-06T21:09:09.888
 
@@ -28,13 +29,15 @@ custom:
     stages:
       - dev
     start:
-      port: 8000
-      inMemory: true
-      heapInitial: 200m
-      heapMax: 1g
       migrate: true
-      seed: true
-      convertEmptyValues: true
+  serverless-offline-dynamodb-streams:
+    apiVersion: '2013-12-02'
+    endpoint: http://0.0.0.0:8000
+    region: eu-west-1
+    accessKeyId: root
+    secretAccessKey: root
+    skipCacheInvalidation: false
+    readInterval: 500
 
 resources:
   Resources:
@@ -51,3 +54,6 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+        StreamSpecification:
+          StreamEnabled: true
+          StreamViewType: NEW_AND_OLD_IMAGES

@@ -38,9 +38,11 @@ Don't forget to:
 
 ## Running it locally
 
+Starting the local environment:
+
 ```
 $ sls dynamodb install
-$ sls invoke local -f streamUpdated --path testEvent.json
+$ sls offline start
 ```
 
 ## Support

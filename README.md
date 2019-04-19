@@ -4,7 +4,7 @@ There is an article explaining the usage of this code here: TBD.
 
 This is naive crawler that's a Proof of Concept and not appropriate for production usage. Do not use against production websites. Do not use against websites where you do not have permission to crawl. Do not violate AWS Terms & Conditions.
 
-This code is provided for educational purposes only with no warranty implied. 
+This code is provided for educational purposes only with no warranty implied.
 
 Misuse may result in considerable AWS expenses and may negatively impact target websites.
 
@@ -18,7 +18,7 @@ Do not run this code unless you understand the implications of web crawling. You
 
 ## Installation
 
-Clone and ```npm install``` in your downloaded directory.
+Clone and `npm ci` in your downloaded directory.
 
 ## Usage
 
@@ -28,6 +28,13 @@ Don't forget to:
 - Create the DynamoDB table 'crawler'
 - Add the stream ARN in serverless.yaml (when you are ready)
 - Spend time to test and understand what the code is doing
+
+## Running it locally
+
+```
+$ sls dynamodb install
+$ sls invoke local -f streamUpdated --path testEvent.json
+```
 
 ## Support
 

@@ -36,27 +36,20 @@ The local DynamoDB stores data in memory, so every restart clears all informatio
 configuration in the `.dynamodb` folder, which can usually simply just be ignored. But I have had to remove
 that directory once when the daemon wouldn't start anymore after upgrading some npm packages.
 
-Once the local environment is started, add an URL to the DynamoDB table to trigger the crawler. You can do
-this from the local javascript shell by firing up a browser and going to http://localhost:8000/shell .
-
-Run the following script to put an item:
+Once the local environment is started, add an URL to the DynamoDB table to trigger the crawler. Since
+serverless-offline also mimics API Gateway, we can trigger it as follows:
 
 ```
-var params = {
-    TableName: 'crawler',
-    Item: {
-        url: 'https://some-url'
-    },
-};
-
-docClient.put(params, function(err, data) {
-    if (err) ppJson(err); // an error occurred
-    else ppJson(data); // successful response
-});
+curl -XPOST http://localhost:3000/startCrawl --data '{ "url": "https://some-url" }'
 ```
+
+
+this from the local javascript shell by firing up a browser and going to  .
+
 
 You should see some output in the terminal where the local environment is running. To list the URLs within
-the DynamoDB table, run the following script in the DynamoDB javascript shell:
+the DynamoDB table, run the following script in the DynamoDB javascript shell by navigating to
+http://localhost:8000/shell in your browser:
 
 ```
 var params = {

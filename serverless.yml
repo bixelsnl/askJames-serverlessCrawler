@@ -19,6 +19,13 @@ provider:
       Resource: arn:aws:dynamodb:*:*:table/crawler
 
 functions:
+  startCrawl:
+    handler: crawler/handler.startCrawl
+    events:
+      - http:
+          path: startCrawl
+          method: post
+
   streamUpdated:
     handler: crawler/handler.streamUpdated
     events:

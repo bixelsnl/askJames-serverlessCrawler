@@ -1,6 +1,8 @@
 const cheerio = require('cheerio')
 const axios = require('axios')
 const https = require('https')
+const path = require('path')
+const { saveToS3 } = require('./s3')
 
 // Returns set of distinct URLs found in a given URL.
 
@@ -26,6 +28,13 @@ module.exports.crawl = async (crawlUrl) => {
     xmlMode: false,
     decodeEntities: false
   })
+
+  const parsedCrawlUrl = new URL(crawlUrl)
+  var s3key = parsedCrawlUrl.pathname.substr(1);
+  if (!path.basename(s3key)) {
+    s3key += 'index.html'
+  }
+  saveToS3(s3key, response.data, response.headers['content-type'])
 
   // Iterate through all hrefs on the crawled page
   $('a, img, link, script').each((i, link) => {

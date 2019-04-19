@@ -40,16 +40,18 @@ custom:
       migrate: true
   serverless-offline-dynamodb-streams:
     apiVersion: '2013-12-02'
-    endpoint: http://0.0.0.0:8000
+    endpoint: http://127.0.0.1:8000
     region: eu-west-1
     accessKeyId: root
     secretAccessKey: root
     skipCacheInvalidation: false
     readInterval: 500
   s3:
-    host: 0.0.0.0
+    host: 127.0.0.1
     port: 8001
     directory: ./s3
+    indexDocument: /index.html
+    errorDocument: /error.html
 
 resources:
   Resources:
@@ -69,7 +71,10 @@ resources:
         StreamSpecification:
           StreamEnabled: true
           StreamViewType: NEW_AND_OLD_IMAGES
-    crawlBucket:
+    crawledSiteBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: local-bucket
+        BucketName: crawled-site.local
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html

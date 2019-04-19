@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk')
-AWS.config.update({ region: process.env.REGION || 'us-east-1' })
+AWS.config.update({ region: process.env.REGION || 'eu-west-1' })
 
 var dynamodb = require('serverless-dynamodb-client')
 const ddb = dynamodb.raw

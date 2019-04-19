@@ -39,10 +39,6 @@ serverless-offline also mimics API Gateway, we can trigger it as follows:
 curl -XPOST http://localhost:3000/startCrawl --data '{ "url": "https://some-url" }'
 ```
 
-
-this from the local javascript shell by firing up a browser and going to  .
-
-
 You should see some output in the terminal where the local environment is running. To list the URLs within
 the DynamoDB table, run the following script in the DynamoDB javascript shell by navigating to
 http://localhost:8000/shell in your browser:

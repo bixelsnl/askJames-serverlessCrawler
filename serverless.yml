@@ -4,6 +4,7 @@ plugins:
   - serverless-dynamodb-local
   - serverless-offline
   - serverless-offline-dynamodb-streams
+  - serverless-s3-local
 
 provider:
   name: aws
@@ -45,6 +46,10 @@ custom:
     secretAccessKey: root
     skipCacheInvalidation: false
     readInterval: 500
+  s3:
+    host: 0.0.0.0
+    port: 8001
+    directory: ./s3
 
 resources:
   Resources:
@@ -64,3 +69,7 @@ resources:
         StreamSpecification:
           StreamEnabled: true
           StreamViewType: NEW_AND_OLD_IMAGES
+    crawlBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: local-bucket

@@ -22,6 +22,7 @@ Starting the local environment:
 
 ```
 $ git clone https://github.com/bixelsnl/askJames-serverlessCrawler.git
+$ cd askJames-serverlessCrawler
 $ npm ci
 $ sls dynamodb install
 $ sls offline start

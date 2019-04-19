@@ -1,5 +1,6 @@
 const cheerio = require('cheerio')
 const axios = require('axios')
+const https = require('https')
 
 // Returns set of distinct URLs found in a given URL.
 
@@ -11,7 +12,10 @@ const axios = require('axios')
 */
 
 module.exports.crawl = async (crawlUrl) => {
-  const response = await axios.get(crawlUrl)
+  const agent = new https.Agent({
+    rejectUnauthorized: false
+  })
+  const response = await axios.get(crawlUrl, { httpsAgent: agent })
   const foundURLs = [] // Discovered URLs from the page
 
   console.log('crawl started: ', crawlUrl)

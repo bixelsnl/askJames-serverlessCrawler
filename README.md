@@ -31,7 +31,7 @@ $ cp testEvent.sample.json testEvent.json
 
 Don't forget to:
 
-- Update your testEvent.json
+- Update the crawl URL in your testEvent.json
 - Create the DynamoDB table 'crawler'
 - Add the stream ARN in serverless.yaml (when you are ready)
 - Spend time to test and understand what the code is doing

@@ -1,6 +1,7 @@
 const cheerio = require('cheerio')
 const axios = require('axios')
 const https = require('https')
+const cssUrlParser = require('css-url-parser')
 const path = require('path')
 const { saveToS3 } = require('./s3')
 
@@ -34,25 +35,45 @@ module.exports.crawl = async (crawlUrl) => {
   if (!path.basename(s3key)) {
     s3key += 'index.html'
   }
-  saveToS3(s3key, response.data, response.headers['content-type'])
+  saveToS3(
+    s3key,
+    response.data.replace(new RegExp(parsedCrawlUrl.host, 'gi'), '127.0.0.1:8001/crawled-site.local').replace(new RegExp('https://127.0.0.1:8001', 'gi'), 'http://127.0.0.1:8001'),
+    response.headers['content-type']
+  )
 
   // Iterate through all hrefs on the crawled page
-  $('a, img, link, script').each((i, link) => {
-    const linkUrl = $(link).attr('href') || $(link).attr('src')
+  if (response.headers['content-type'].includes('text/html')) {
+    // for HTML documents
+    $('a, img, link, script').each((i, link) => {
+      const linkUrl = $(link).attr('href') || $(link).attr('src')
 
-    // Some tags may not refer to resources, eg script tag might not have a src
-    if (undefined === linkUrl) {
-      return true;
-    }
-    console.log(i, linkUrl)
+      // Some tags may not refer to resources, eg script tag might not have a src
+      if (undefined === linkUrl) {
+        return true;
+      }
+      console.log(i, linkUrl)
 
-    // Validate URL
-    const validatedURL = validateURL(crawlUrl, linkUrl)
-    if (validatedURL) {
-      console.log('Valid foundURL: ', validatedURL)
-      foundURLs.push(validatedURL)
-    }
-  })
+      // Validate URL
+      const validatedURL = validateURL(crawlUrl, linkUrl)
+      if (validatedURL) {
+        console.log('Valid foundURL: ', validatedURL)
+        foundURLs.push(validatedURL)
+      }
+    })
+  } else if(response.headers['content-type'].includes('text/css')) {
+    // for CSS documents
+    cssUrlParser(response.data).forEach(function(linkUrl, i) {
+      console.log(i, linkUrl)
+
+      const validatedURL = validateURL(crawlUrl, linkUrl)
+      if (validatedURL) {
+        console.log('Valid foundURL: ', validatedURL)
+        foundURLs.push(validatedURL)
+      }
+    })
+  } else {
+    // @todo for other kinds of documents
+  }
 
   // Remove the duplicates
   return new Set(foundURLs)

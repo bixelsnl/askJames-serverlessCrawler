@@ -16,18 +16,13 @@ Do not run this code unless you understand the implications of web crawling. You
 - [Usage](#usage)
 - [Support](#support)
 
-## Installation
-
-```
-$ git clone https://github.com/bixelsnl/askJames-serverlessCrawler.git
-$ npm ci
-```
-
 ## Running it locally
 
 Starting the local environment:
 
 ```
+$ git clone https://github.com/bixelsnl/askJames-serverlessCrawler.git
+$ npm ci
 $ sls dynamodb install
 $ sls offline start
 ```

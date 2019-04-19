@@ -28,8 +28,13 @@ module.exports.crawl = async (crawlUrl) => {
   })
 
   // Iterate through all hrefs on the crawled page
-  $('a').each((i, link) => {
-    const linkUrl = $(link).attr('href')
+  $('a, img, link, script').each((i, link) => {
+    const linkUrl = $(link).attr('href') || $(link).attr('src')
+
+    // Some tags may not refer to resources, eg script tag might not have a src
+    if (undefined === linkUrl) {
+      return true;
+    }
     console.log(i, linkUrl)
 
     // Validate URL

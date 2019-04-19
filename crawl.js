@@ -53,7 +53,7 @@ const validateURL = (crawlUrl, linkUrl) => {
   if (linkUrl.charAt(0) === '#') return // Remove anchor hrefs
 
   const parsedCrawlUrl = new URL(crawlUrl)
-  const parsedUrl = new URL(linkUrl)
+  const parsedUrl = new URL(linkUrl, crawlUrl)
 
   // Relative URLs/hashed URLs, etc.
   if (!parsedUrl.protocol) {

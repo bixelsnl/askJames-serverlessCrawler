@@ -18,9 +18,16 @@ Do not run this code unless you understand the implications of web crawling. You
 
 ## Installation
 
-Clone and `npm ci` in your downloaded directory.
+```
+$ git clone https://github.com/bixelsnl/askJames-serverlessCrawler.git
+$ npm ci
+```
 
 ## Usage
+
+```
+$ cp testEvent.sample.json testEvent.json
+```
 
 Don't forget to:
 

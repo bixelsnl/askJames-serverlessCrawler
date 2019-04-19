@@ -56,6 +56,10 @@ dynamodb.scan(params, function(err, data) {
 });
 ```
 
+The crawled data is stored in the folder ./s3/crawled-site.local and can be reached in your browser at
+http://127.0.0.1:8001/crawled-site.local . You need to manually delete this folder every time you re-crawl
+a (different) site.
+
 ## Support
 
 If you have any questions or comments, feel free to contact me (James Beswick) at @jbesw. I hope you enjoy!

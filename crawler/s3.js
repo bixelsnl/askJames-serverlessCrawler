@@ -22,7 +22,7 @@ module.exports.saveToS3 = async (key, body, contentType) => {
     s3.putObject({
       Bucket: 'crawled-site.local',
       Key: key,
-      Body: new Buffer(body),
+      Body: body,
       ContentType: contentType
     }, function (err, data) {
       if (err) {
